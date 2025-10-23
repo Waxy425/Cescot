@@ -1,2 +1,3 @@
 file quasi vuoto
+aggiunta una riga all'interno del testo
 aggiungo una riga al primo file
