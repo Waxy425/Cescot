@@ -1,3 +1,7 @@
 div.main {
     background-color: red;
 }
+
+div.main > p {
+    color: green;
+}
