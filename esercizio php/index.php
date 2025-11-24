@@ -8,6 +8,11 @@
 </head>
 <body>
     <h1>Pagina di prova</h1>
+    
+
+    <?php 
+        div_generatore (15);
+    ?>
 
 
 
@@ -16,3 +21,12 @@
     </div>
 </body>
 </html>
+
+<?php
+    function div_generatore($numero_div){
+      $i=1;
+        while($i<=$numero_div):
+            echo"<div>questo div è il numero $i</div>";
+            $i++;
+        endwhile;
+    }?>
