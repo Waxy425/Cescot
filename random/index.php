@@ -20,17 +20,20 @@ $i = rand(1 , 3);
 <?php
 
     function div_generatore_dispari_pari($pari_dispari_div){
-      $i=0;
-        while($i<$pari_dispari_div):
-            $i++;
-            echo"<div>questo div è il numero $i</div>";
+      $p="pari";
+      $d="dispari";
+      $k=0;
+        while($k<$pari_dispari_div):
+            $k++;
             
+            echo'<div class="pari">questo div è pari</div>';
+            echo'<div class="dispari">questo div è dispari</div>';
         endwhile;
     }
-
+div_generatore_dispari_pari(10);
 ?>
 
-
+<div class="div">questa è la fine della pagina</div>
 
 
 
