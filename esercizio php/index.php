@@ -24,9 +24,10 @@
 
 <?php
     function div_generatore($numero_div){
-      $i=1;
-        while($i<=$numero_div):
-            echo"<div>questo div è il numero $i</div>";
+      $i=0;
+        while($i<$numero_div):
             $i++;
+            echo"<div>questo div è il numero $i</div>";
+            
         endwhile;
     }?>
