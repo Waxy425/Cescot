@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MVP stile Minecraft</title>
+  <style>
+    :root {
+      --ui-bg: #1e1e1e;
+      --ui-fg: #f1f1f1;
+      --accent: #4caf50;
+    }
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #121212;
+      color: var(--ui-fg);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    }
+    header {
+      background: linear-gradient(90deg, #2b2b2b, #1f1f1f);
+      border-bottom: 1px solid #333;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .logo {
+      width: 28px; height: 28px;
+      border-radius: 4px;
+      background: conic-gradient(from 180deg, #2e7d32, #66bb6a, #43a047, #2e7d32);
+      box-shadow: 0 0 0 2px #2e7d32 inset;
+    }
+    h1 {
+      font-size: 18px; margin: 0;
+      letter-spacing: 0.4px;
+    }
+    .controls {
+      margin-left: auto;
+      display: flex; gap: 12px; align-items: center;
+      font-size: 14px;
+      color: #cfcfcf;
+    }
+    .btn {
+      background: #2a2a2a;
+      border: 1px solid #3c3c3c;
+      color: #ddd; padding: 6px 10px;
+      border-radius: 6px; cursor: pointer;
+    }
+    .btn:hover { border-color: #666; }
+    main {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 0;
+      height: calc(100% - 56px);
+    }
+    #game {
+      position: relative; background: #0a0f0a;
+    }
+    canvas { display: block; width: 100%; height: 100%; }
+    aside {
+      background: var(--ui-bg);
+      border-left: 1px solid #333;
+      padding: 12px;
+      overflow: auto;
+    }
+    .panel h2 { font-size: 16px; margin: 0 0 8px; }
+    .stat { display: flex; justify-content: space-between; margin: 6px 0; }
+    .bar {
+      height: 10px; border-radius: 10px; overflow: hidden; background: #2a2a2a; margin: 8px 0;
+    }
+    .bar > span { display:block; height:100%; background: linear-gradient(90deg, #ef5350, #e53935); }
+    .minimap {
+      margin-top: 10px;
+      width: 100%; height: 160px;
+      background: #0d0d10; border: 1px solid #333; border-radius: 8px;
+    }
+    footer {
+      position: absolute; bottom: 8px; left: 8px; right: 8px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 12px; color: #bbb;
+      pointer-events: none;
+    }
+    .hint {
+      padding: 6px 10px; background: rgba(30,30,30,0.7);
+      border: 1px solid #333; border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo" aria-hidden="true"></div>
+    <h1>MVP stile Minecraft</h1>
+    <div class="controls">
+      <span>W/A/S/D muovi • Spazio attacca • Shift scatta</span>
+      <button class="btn" id="btnRegen">Rigenera mondo</button>
+      <button class="btn" id="btnHQ">Texture HQ</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="game">
+      <canvas id="canvas" width="1280" height="720"></canvas>
+      <footer>
+        <div class="hint">Obiettivo: esplora, evita i laghi, elimina i mostri, raggiungi le montagne.</div>
+        <div class="hint">Seed: <span id="seedLabel">-</span></div>
+      </footer>
+    </section>
+
+    <aside>
+      <div class="panel">
+        <h2>Stato</h2>
+        <div class="stat"><span>HP</span><span id="hpLabel">100</span></div>
+        <div class="bar"><span id="hpBar" style="width:100%"></span></div>
+        <div class="stat"><span>Stamina</span><span id="stLabel">100</span></div>
+        <div class="bar"><span id="stBar" style="width:100%; background:linear-gradient(90deg,#42a5f5,#1e88e5)"></span></div>
+        <div class="stat"><span>Mostri</span><span id="enemyLabel">0</span></div>
+        <div class="stat"><span>Punteggio</span><span id="scoreLabel">0</span></div>
+      </div>
+      <div class="panel">
+        <h2>Minimappa</h2>
+        <canvas class="minimap" id="minimap" width="300" height="160"></canvas>
+      </div>
+      <div class="panel">
+        <h2>Texture</h2>
+        <p>Attiva “Texture HQ” per pattern complessi. Per vere texture ad alta qualità, usa immagini e caricale come pattern.</p>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    // --- Utilities: RNG con seed, Perlin-like semplice ---
+    function xorshift32(seed) {
+      let x = seed || 123456789;
+      return () => {
+        x ^= x << 13; x ^= x >>> 17; x ^= x << 5;
+        return (x >>> 0) / 0xFFFFFFFF;
+      };
+    }
+
+    // Noise 2D semplice
+    function makeNoise2D(rand) {
+      const grad = [];
+      for (let i = 0; i < 256; i++) grad.push(rand()*2-1, rand()*2-1);
+      function dot(ix, iy, x, y) {
+        const idx = ((ix & 15) + (iy & 15)*16)*2;
+        return grad[idx]*x + grad[idx+1]*y;
+      }
+      function fade(t) { return t*t*t*(t*(t*6-15)+10); }
+      function lerp(a,b,t){ return a + (b-a)*t; }
+      return (x,y)=>{
+        const X = Math.floor(x), Y = Math.floor(y);
+        const xf = x - X, yf = y - Y;
+        const tl = dot(X, Y, xf, yf);
+        const tr = dot(X+1, Y, xf-1, yf);
+        const bl = dot(X, Y+1, xf, yf-1);
+        const br = dot(X+1, Y+1, xf-1, yf-1);
+        const u = fade(xf), v = fade(yf);
+        return lerp(lerp(tl, tr, u), lerp(bl, br, u), v);
+      };
+    }
+
+    // --- Setup canvas ---
+    const cv = document.getElementById('canvas');
+    const ctx = cv.getContext('2d');
+    const mm = document.getElementById('minimap');
+    const mctx = mm.getContext('2d');
+
+    const state = {
+      seed: Math.floor(Math.random()*1e9),
+      hq: false,
+      world: { w: 2000, h: 2000, tiles: 64 },
+      player: { x: 1000, y: 1000, r: 14, speed: 2.4, hp:100, stamina:100, dir:0 },
+      enemies: [],
+      bullets: [],
+      score: 0
+    };
+
+    document.getElementById('seedLabel').textContent = state.seed;
+    const rng = xorshift32(state.seed);
+    const noise = makeNoise2D(rng);
+    const noise2 = makeNoise2D(rng);
+
+    // --- Generazione mondo (alberi, laghi, montagne) ---
+    const features = { trees: [], lakes: [], mountains: [] };
+
+    function genWorld() {
+      features.trees = [];
+      features.lakes = [];
+      features.mountains = [];
+      state.enemies = [];
+      state.bullets = [];
+      state.score = 0;
+      for (let i = 0; i < 280; i++) {
+        const x = rng()*state.world.w, y = rng()*state.world.h;
+        const n = noise(x*0.003, y*0.003);
+        if (n > 0.15) features.trees.push({x,y,r: 10 + (n*10)});
+      }
+      for (let i = 0; i < 18; i++) {
+        const x = rng()*state.world.w, y = rng()*state.world.h;
+        const r = 60 + rng()*120;
+        features.lakes.push({x,y,r});
+      }
+      for (let i = 0; i < 24; i++) {
+        const x = rng()*state.world.w, y = rng()*state.world.h;
+        const h = 90 + rng()*160;
+        features.mountains.push({x,y,h});
+      }
+      for (let i = 0; i < 30; i++) {
+        const x = rng()*state.world.w, y = rng()*state.world.h;
+        state.enemies.push({ x, y, r: 12, hp: 3 + Math.floor(rng()*3), cooldown: 0 });
+      }
+      updateUI();
+    }
+    genWorld();
+
+    // --- Input ---
+    const keys = {};
+    window.addEventListener('keydown', (e)=>{ keys[e.key.toLowerCase()] = true; });
+    window.addEventListener('keyup', (e)=>{ keys[e.key.toLowerCase()] = false; });
+
+    // --- Collision check ---
+    function circleCollide(ax, ay, ar, bx, by, br) {
+      const dx = ax - bx, dy = ay - by;
+      return dx*dx + dy*dy < (ar+br)*(ar+br);
+    }
+
+    // --- Rendering texture helpers ---
+    function groundPattern(ctx, hq) {
+      if (!hq) {
+        ctx.fillStyle = '#1b4d2b';
+        ctx.fillRect(0,0,cv.width,cv.height);
+        // noise speckles
+        for (let i = 0; i < 1200; i++) {
+          ctx.fillStyle = i%2 ? '#1f5a33' : '#184526';
+          ctx.globalAlpha = 0.06;
+          ctx.fillRect(rng()*cv.width, rng()*cv.height, 2, 2);
+        }
+        ctx.globalAlpha = 1;
+        return;
+      }
+      // HQ: pattern erba con gradienti e perlin overlay
+      const grd = ctx.createLinearGradient(0,0,0,cv.height);
+      grd.addColorStop(0, '#0f3d22');
+      grd.addColorStop(0.5, '#155a31');
+      grd.addColorStop(1, '#0d331d');
+      ctx.fillStyle = grd;
+      ctx.fillRect(0,0,cv.width,cv.height);
+      const imgData = ctx.createImageData(cv.width, cv.height);
+      for (let y=0; y<cv.height; y++){
+        for (let x=0; x<cv.width; x++){
+          const n = noise(x*0.01 + state.player.x*0.002, y*0.01 + state.player.y*0.002);
+          const i = (y*cv.width + x)*4;
+          const shade = Math.floor(10 + (n+1)*8);
+          imgData.data[i]   = 20;
+          imgData.data[i+1] = 60 + shade;
+          imgData.data[i+2] = 30;
+          imgData.data[i+3] = 18;
+        }
+      }
+      ctx.putImageData(imgData,0,0);
+    }
+
+    function drawLake(x,y,r) {
+      const sx = x - state.player.x + cv.width/2;
+      const sy = y - state.player.y + cv.height/2;
+      const grd = ctx.createRadialGradient(sx, sy, r*0.1, sx, sy, r);
+      grd.addColorStop(0, '#3fb3ff');
+      grd.addColorStop(0.6, '#2277bb');
+      grd.addColorStop(1, '#0f3b66');
+      ctx.fillStyle = grd;
+      ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI*2); ctx.fill();
+      // riflessi
+      ctx.globalAlpha = 0.2;
+      ctx.fillStyle = '#b9e8ff';
+      ctx.fillRect(sx - r*0.6, sy - r*0.1, r*1.2, r*0.2);
+      ctx.globalAlpha = 1;
+    }
+
+    function drawTree(x,y,r) {
+      const sx = x - state.player.x + cv.width/2;
+      const sy = y - state.player.y + cv.height/2;
+      // tronco
+      ctx.fillStyle = '#6b4f2a';
+      ctx.fillRect(sx-3, sy, 6, r);
+      // chioma
+      const grd = ctx.createRadialGradient(sx, sy, r*0.2, sx, sy, r);
+      grd.addColorStop(0, '#3c7a3c');
+      grd.addColorStop(1, '#205120');
+      ctx.fillStyle = grd;
+      ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI*2); ctx.fill();
+    }
+
+    function drawMountain(x,y,h) {
+      const sx = x - state.player.x + cv.width/2;
+      const sy = y - state.player.y + cv.height/2;
+      ctx.fillStyle = '#6d6d6d';
+      ctx.beginPath();
+      ctx.moveTo(sx, sy - h);
+      ctx.lineTo(sx - h*0.8, sy + h*0.2);
+      ctx.lineTo(sx + h*0.8, sy + h*0.2);
+      ctx.closePath(); ctx.fill();
+      // neve
+      ctx.fillStyle = '#eaeaea';
+      ctx.beginPath();
+      ctx.moveTo(sx, sy - h);
+      ctx.lineTo(sx - h*0.4, sy - h*0.25);
+      ctx.lineTo(sx + h*0.4, sy - h*0.25);
+      ctx.closePath(); ctx.fill();
+    }
+
+    function drawEnemy(e) {
+      const sx = e.x - state.player.x + cv.width/2;
+      const sy = e.y - state.player.y + cv.height/2;
+      const grd = ctx.createRadialGradient(sx, sy, 2, sx, sy, e.r);
+      grd.addColorStop(0, '#ff4444');
+      grd.addColorStop(1, '#7a1111');
+      ctx.fillStyle = grd;
+      ctx.beginPath(); ctx.arc(sx, sy, e.r, 0, Math.PI*2); ctx.fill();
+      // occhi
+      ctx.fillStyle = '#000';
+      ctx.beginPath(); ctx.arc(sx-4, sy-2, 2, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(sx+4, sy-2, 2, 0, Math.PI*2); ctx.fill();
+    }
+
+    function drawPlayer() {
+      const sx = cv.width/2, sy = cv.height/2;
+      const r = state.player.r;
+      const grd = ctx.createRadialGradient(sx, sy, 4, sx, sy, r);
+      grd.addColorStop(0, '#ffee58');
+      grd.addColorStop(1, '#f9a825');
+      ctx.fillStyle = grd;
+      ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI*2); ctx.fill();
+      // direzione
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(sx, sy);
+      ctx.lineTo(sx + Math.cos(state.player.dir)*r, sy + Math.sin(state.player.dir)*r);
+      ctx.stroke();
+    }
+
+    function drawBullet(b) {
+      const sx = b.x - state.player.x + cv.width/2;
+      const sy = b.y - state.player.y + cv.height/2;
+      ctx.fillStyle = '#ffff66';
+      ctx.beginPath(); ctx.arc(sx, sy, 3, 0, Math.PI*2); ctx.fill();
+    }
+
+    // --- Minimap ---
+    function drawMinimap() {
+      mctx.clearRect(0,0,mm.width,mm.height);
+      const scaleX = mm.width / state.world.w;
+      const scaleY = mm.height / state.world.h;
+      // laghi
+      features.lakes.forEach(l=>{
+        mctx.fillStyle = '#2c6fa3';
+        mctx.beginPath(); mctx.arc(l.x*scaleX, l.y*scaleY, l.r*scaleX, 0, Math.PI*2); mctx.fill();
+      });
+      // montagne
+      features.mountains.forEach(mt=>{
+        mctx.fillStyle = '#8f8f8f';
+        mctx.fillRect(mt.x*scaleX-2, mt.y*scaleY-2, 4, 4);
+      });
+      // alberi
+      features.trees.forEach(t=>{
+        mctx.fillStyle = '#2f7a3f';
+        mctx.fillRect(t.x*scaleX-1, t.y*scaleY-1, 2, 2);
+      });
+      // nemici
+      state.enemies.forEach(e=>{
+        mctx.fillStyle = '#d32f2f';
+        mctx.fillRect(e.x*scaleX-1.5, e.y*scaleY-1.5, 3, 3);
+      });
+      // giocatore
+      mctx.fillStyle = '#f9a825';
+      mctx.beginPath(); mctx.arc(state.player.x*scaleX, state.player.y*scaleY, 3, 0, Math.PI*2); mctx.fill();
+    }
+
+    // --- Logica ---
+    function update(dt) {
+      const p = state.player;
+      const run = keys['shift'] && p.stamina > 0;
+      const speed = run ? p.speed*1.8 : p.speed;
+      if (run) p.stamina = Math.max(0, p.stamina - 0.05*dt); else p.stamina = Math.min(100, p.stamina + 0.03*dt);
+
+      const vx = (keys['d']?1:0) - (keys['a']?1:0);
+      const vy = (keys['s']?1:0) - (keys['w']?1:0);
+      const len = Math.hypot(vx,vy) || 1;
+      p.x += (vx/len)*speed*dt;
+      p.y += (vy/len)*speed*dt;
+      if (vx || vy) p.dir = Math.atan2(vy, vx);
+
+      // collisioni con laghi (danno)
+      features.lakes.forEach(l=>{
+        if (circleCollide(p.x, p.y, p.r, l.x, l.y, l.r)) {
+          p.hp = Math.max(0, p.hp - 0.06*dt);
+        }
+      });
+
+      // nemici: inseguono
+      state.enemies.forEach(e=>{
+        const dx = p.x - e.x, dy = p.y - e.y;
+        const d = Math.hypot(dx,dy) || 1;
+        const sp = 0.8 + (2 / Math.max(60,d));
+        e.x += (dx/d)*sp*dt;
+        e.y += (dy/d)*sp*dt;
+        if (circleCollide(p.x, p.y, p.r, e.x, e.y, e.r)) {
+          if (e.cooldown <= 0) { p.hp = Math.max(0, p.hp - 5); e.cooldown = 600; }
+        }
+        e.cooldown -= dt;
+      });
+
+      // attacco: proiettili
+      if (keys[' '] && state.bullets.length < 10) {
+        state.bullets.push({
+          x: p.x + Math.cos(p.dir)*p.r,
+          y: p.y + Math.sin(p.dir)*p.r,
+          vx: Math.cos(p.dir)*0.6,
+          vy: Math.sin(p.dir)*0.6,
+          life: 2200
+        });
+      }
+      state.bullets.forEach(b=>{
+        b.x += b.vx*dt*4;
+        b.y += b.vy*dt*4;
+        b.life -= dt;
+      });
+      state.bullets = state.bullets.filter(b=>b.life>0);
+
+      // danno ai nemici
+      state.bullets.forEach(b=>{
+        state.enemies.forEach(e=>{
+          if (circleCollide(b.x,b.y,3,e.x,e.y,e.r)) {
+            e.hp -= 1;
+            b.life = 0;
+            if (e.hp <= 0) { e.dead = true; state.score += 10; }
+          }
+        });
+      });
+      state.enemies = state.enemies.filter(e=>!e.dead);
+
+      // limiti mondo
+      p.x = Math.max(p.r, Math.min(state.world.w - p.r, p.x));
+      p.y = Math.max(p.r, Math.min(state.world.h - p.r, p.y));
+
+      updateUI();
+    }
+
+    // --- UI ---
+    function updateUI() {
+      document.getElementById('hpLabel').textContent = Math.round(state.player.hp);
+      document.getElementById('stLabel').textContent = Math.round(state.player.stamina);
+      document.getElementById('enemyLabel').textContent = state.enemies.length;
+      document.getElementById('scoreLabel').textContent = state.score;
+      document.getElementById('hpBar').style.width = state.player.hp + '%';
+      document.getElementById('stBar').style.width = state.player.stamina + '%';
+    }
+
+    // --- Draw frame ---
+    function render() {
+      groundPattern(ctx, state.hq);
+
+      // offset per world->screen
+      // laghi prima (background)
+      features.lakes.forEach(drawLake);
+      // montagne
+      features.mountains.forEach(drawMountain);
+      // alberi
+      features.trees.forEach(drawTree);
+      // nemici e proiettili
+      state.enemies.forEach(drawEnemy);
+      state.bullets.forEach(drawBullet);
+      // giocatore
+      drawPlayer();
+      drawMinimap();
+    }
+
+    // --- Loop ---
+    let last = performance.now();
+    function loop(now) {
+      const dt = Math.min(32, now - last); // clamp per stabilità
+      last = now;
+      update(dt);
+      render();
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+
+    // --- Controls ---
+    document.getElementById('btnRegen').addEventListener('click', ()=>{
+      state.seed = Math.floor(Math.random()*1e9);
+      document.getElementById('seedLabel').textContent = state.seed;
+      const newRng = xorshift32(state.seed);
+      // rimpiazziamo RNG/noise mantenendo stato
+      Object.assign(rng, newRng);
+      genWorld();
+    });
+
+    document.getElementById('btnHQ').addEventListener('click', ()=>{
+      state.hq = !state.hq;
+      document.getElementById('btnHQ').textContent = state.hq ? 'Texture HQ: ON' : 'Texture HQ';
+    });
+
+    // --- Resize responsive ---
+    function resize() {
+      const rect = document.getElementById('game').getBoundingClientRect();
+      cv.width = Math.floor(rect.width);
+      cv.height = Math.floor(rect.height);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+  </script>
+</body>
+</html>
