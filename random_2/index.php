@@ -7,29 +7,20 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Contenuti a caso</h1>
-     <?php div_generator();
-     ?>
+    <h1>contenuti a caso</h1>
+    
+<?php
+    $dispari = '<div class="dispari">io sono dispari</div>';
+    $pari = '<div class="pari">io sono pari</div>';
+    $casuali = rand(1,15);
+    echo $casuali;
 
+    for ($i = 0; $i < $casuali; $i++) {
+        echo $dispari;
+        echo $pari;
+    }
+?>
+
+<div class="div">fine pagina</div>
 </body>
 </html>
-
-<?php
-$numero_div = rand(10,30);
-function div_generator($numero_div);
-    $i=0;
-    if ($numero_div %2 === true){
-        $n=$numero_div/2;
-        while ($i<$n):
-            echo'<div class="dispari">questo div è dispari</div>';
-            echo'<div class="pari">questo div è pari</div>';
-    } else {
-        $n=$numero_div-1;
-        while ($i<$n):
-            echo'<div class="dispari">questo div è dispari</div>';
-            echo'<div class="pari">questo div è pari</div>';
-        echo'<div class="dispari">questo div è dispari</div>';
-    }
-
-
-    
