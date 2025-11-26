@@ -8,6 +8,27 @@ div.casuali {
     width: 50px;
 }
 
+div.rosso {
+    background-color: red;
+    height: 50px;
+    width: 50px;
+}
+div.verde {
+    background-color: green;
+    height: 50px;
+    width: 50px;
+}
+div.blu {
+    background-color: blue;
+    height: 50px;
+    width: 50px;
+}
+div.giallo {
+    background-color: yellow;
+    height: 50px;
+    width: 50px;
+}
+
 div.div {
     background-color: red;
     color:white;
