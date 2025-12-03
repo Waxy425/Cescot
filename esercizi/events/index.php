@@ -8,12 +8,30 @@
 </head>
 <body>
     <h1>Event JavaScript</h1>
-    <button>colora</button>
+    <button onclick="colora()" id="colora">colora</button>
 
-
-
-
-
+    <div class="div">colore</div>
+    <div class="div">colore</div>
+    <div class="div">colore</div>
+    <div class="div">colore</div>
+    <div class="div">colore</div>
+    <div class="div">colore</div>
+    <div class="div">colore</div>
+    <div class="div">colore</div>
+    <div class="div">colore</div>
+    <div class="div">colore</div>
+    <div class="div">colore</div>
+    <div class="div">colore</div>
+    <div class="div">colore</div>
+    <div class="div">colore</div>
+    <div class="div">colore</div>
+    <div class="div">colore</div>
+    <div class="div">colore</div>
+    <div class="div">colore</div>
+    <div class="div">colore</div>
+    <div class="div">colore</div>
+    <div class="div">colore</div>
+    
 
 
 
