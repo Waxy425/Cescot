@@ -1,0 +1,14 @@
+h1 {
+    color:red;
+}
+
+div {
+    background-color: grey;
+    height: 50px;
+    width: 50px;
+}
+
+div.div {
+    background-color: red;
+    color:white;
+}

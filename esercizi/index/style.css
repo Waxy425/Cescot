@@ -1,0 +1,15 @@
+div.main {
+    background-color: red;
+}
+
+div.main > p {
+    color: greenyellow;
+}
+
+div.secondary {
+    background-color: white;
+}
+
+div.secondary > p {
+    color: black;
+}
