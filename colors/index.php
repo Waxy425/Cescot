@@ -24,7 +24,13 @@
 
 function div_generator($numero_div){
     for ($i = 0; $i < $numero_div; $i++) {
-    echo'<div class="casuali">div</div>';
+    $colore= colore_casuale();
+    echo'<div class="$colore">div</div>';
     }
+}
+
+function colore_casuale($numero_colore){
+    $colori = ["blu", "verde", "rosso", "giallo"];
+    return $colori[$numero_colore];   
 }
 ?>

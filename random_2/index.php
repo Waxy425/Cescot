@@ -37,5 +37,3 @@ function div_generator($numero_div){
         }
     
 }
-
-    
