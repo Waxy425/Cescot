@@ -56,3 +56,11 @@ function coloraGiallo(){
     div[19].style.backgroundColor = 'yellow';
     div[20].style.backgroundColor = 'yellow';
 }
+
+function color_red(){
+    let i =0;
+    while (1<=19) {
+        div[i].style.backgroundColor = 'red';
+        i++;
+    }
+}
