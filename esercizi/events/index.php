@@ -12,33 +12,21 @@
     <button class="yellow" onclick="color_yellow()" id="coloraGiallo">giallo</button>
     <button class="blue" onclick="color_blue()" id="coloraBlu">blu</button>
 
-    <div class="div">colore</div>
-    <div class="div">colore</div>
-    <div class="div">colore</div>
-    <div class="div">colore</div>
-    <div class="div">colore</div>
-    <div class="div">colore</div>
-    <div class="div">colore</div>
-    <div class="div">colore</div>
-    <div class="div">colore</div>
-    <div class="div">colore</div>
-    <div class="div">colore</div>
-    <div class="div">colore</div>
-    <div class="div">colore</div>
-    <div class="div">colore</div>
-    <div class="div">colore</div>
-    <div class="div">colore</div>
-    <div class="div">colore</div>
-    <div class="div">colore</div>
-    <div class="div">colore</div>
-    <div class="div">colore</div>
-    <div class="div">colore</div>
+    <?php
+        div_generatore(5);
     
-
-
-
-
+        ?>
 
     <script src="eventi.js"></script>
 </body>
 </html>
+
+<?php
+    function div_generatore($numero_div){
+      $i=0;
+        while($i<$numero_div):
+            $i++;
+            echo"<div class='div'></div>";
+            
+        endwhile;
+    }?>
