@@ -58,33 +58,47 @@ function coloraGiallo(){
 }
 
 function coloraBlu(){
-    div[0].style.backgroundColor = 'blu';
-    div[1].style.backgroundColor = 'blu';
-    div[2].style.backgroundColor = 'blu';
-    div[3].style.backgroundColor = 'blu';
-    div[4].style.backgroundColor = 'blu';
-    div[5].style.backgroundColor = 'blu';
-    div[6].style.backgroundColor = 'blu';
-    div[7].style.backgroundColor = 'blu';
-    div[8].style.backgroundColor = 'blu';
-    div[9].style.backgroundColor = 'blu';
-    div[10].style.backgroundColor = 'blu';
-    div[11].style.backgroundColor = 'blu';
-    div[12].style.backgroundColor = 'blu';
-    div[13].style.backgroundColor = 'blu';
-    div[14].style.backgroundColor = 'blu';
-    div[15].style.backgroundColor = 'blu';
-    div[16].style.backgroundColor = 'blu';
-    div[17].style.backgroundColor = 'blu';
-    div[18].style.backgroundColor = 'blu';
-    div[19].style.backgroundColor = 'blu';
-    div[20].style.backgroundColor = 'blu';
+    div[0].style.backgroundColor = 'blue';
+    div[1].style.backgroundColor = 'blue';
+    div[2].style.backgroundColor = 'blue';
+    div[3].style.backgroundColor = 'blue';
+    div[4].style.backgroundColor = 'blue';
+    div[5].style.backgroundColor = 'blue';
+    div[6].style.backgroundColor = 'blue';
+    div[7].style.backgroundColor = 'blue';
+    div[8].style.backgroundColor = 'blue';
+    div[9].style.backgroundColor = 'blue';
+    div[10].style.backgroundColor = 'blue';
+    div[11].style.backgroundColor = 'blue';
+    div[12].style.backgroundColor = 'blue';
+    div[13].style.backgroundColor = 'blue';
+    div[14].style.backgroundColor = 'blue';
+    div[15].style.backgroundColor = 'blue';
+    div[16].style.backgroundColor = 'blue';
+    div[17].style.backgroundColor = 'blue';
+    div[18].style.backgroundColor = 'blue';
+    div[19].style.backgroundColor = 'blue';
+    div[20].style.backgroundColor = 'blue';
 }
 
 function color_red(){
     let i =0;
     while (1<=19) {
         div[i].style.backgroundColor = 'red';
+        i++;
+    }
+}
+function color_yellow(){
+    let i =0;
+    while (1<=19) {
+        div[i].style.backgroundColor = 'red';
+        i++;
+    }
+}
+function color_blue(){
+    let i =0;
+    while (1<=19) {
+        div[i].style.backgroundColor = 'blue';
         i++;
     }
 }

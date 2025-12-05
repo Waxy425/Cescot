@@ -8,9 +8,9 @@
 </head>
 <body>
     <h1>Event JavaScript</h1>
-    <button onclick="coloraRosso()" id="colora">rosso</button>
-    <button onclick="coloraGiallo()" id="coloraGiallo">giallo</button>
-    <button onclick="coloraBlu()" id="coloraBlu">blu</button>
+    <button class="red" onclick="color_red()" id="colora">rosso</button>
+    <button class="yellow" onclick="color_yellow()" id="coloraGiallo">giallo</button>
+    <button class="blue" onclick="color_blue()" id="coloraBlu">blu</button>
 
     <div class="div">colore</div>
     <div class="div">colore</div>

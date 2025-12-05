@@ -8,3 +8,13 @@ div {
     height: 100px;
     margin-top: 10px;
 }
+
+button.red {
+    color: red;
+}
+button.blue {
+    color: blue;
+}
+button.yellow {
+    color: yellow;
+}
