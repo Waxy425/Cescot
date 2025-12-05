@@ -7,6 +7,34 @@ var div = document.getElementsByClassName("div");
 bottone.addEventListener('click', colora);
 bottona.addEventListener('click', coloraGiallo);
 
+
+
+function color_red(){
+    let i =0;
+    while (1<=19) {
+        div[i].style.backgroundColor = 'red';
+        i++;
+    }
+}
+function color_yellow(){
+    let i =0;
+    while (1<=19) {
+        div[i].style.backgroundColor = 'yellow';
+        i++;
+    }
+}
+function color_blue(){
+    let i =0;
+    while (1<=19) {
+        div[i].style.backgroundColor = 'blue';
+        i++;
+    }
+}
+
+
+
+
+/*
 function coloraRosso(){
     div[0].style.backgroundColor = 'red';
     div[1].style.backgroundColor = 'red';
@@ -80,25 +108,4 @@ function coloraBlu(){
     div[19].style.backgroundColor = 'blue';
     div[20].style.backgroundColor = 'blue';
 }
-
-function color_red(){
-    let i =0;
-    while (1<=19) {
-        div[i].style.backgroundColor = 'red';
-        i++;
-    }
-}
-function color_yellow(){
-    let i =0;
-    while (1<=19) {
-        div[i].style.backgroundColor = 'red';
-        i++;
-    }
-}
-function color_blue(){
-    let i =0;
-    while (1<=19) {
-        div[i].style.backgroundColor = 'blue';
-        i++;
-    }
-}
+*/

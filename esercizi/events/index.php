@@ -13,7 +13,8 @@
     <button class="blue" onclick="color_blue()" id="coloraBlu">blu</button>
 
     <?php
-        div_generatore(5);
+        div_generatore(20);
+    
         ?>
 
     <script src="eventi.js"></script>
