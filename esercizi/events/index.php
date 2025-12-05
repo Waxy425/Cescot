@@ -11,6 +11,7 @@
     <button class="red" onclick="color_red()" id="colora">rosso</button>
     <button class="yellow" onclick="color_yellow()" id="coloraGiallo">giallo</button>
     <button class="blue" onclick="color_blue()" id="coloraBlu">blu</button>
+    <button onclick="alterna()" id="button_alterna">alterna</button>
 
     <?php
         div_generatore(20);
