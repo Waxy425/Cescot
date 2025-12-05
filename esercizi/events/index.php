@@ -14,7 +14,6 @@
 
     <?php
         div_generatore(5);
-    
         ?>
 
     <script src="eventi.js"></script>
@@ -23,10 +22,7 @@
 
 <?php
     function div_generatore($numero_div){
-      $i=0;
-        while($i<$numero_div):
-            $i++;
-            echo"<div class='div'></div>";
-            
-        endwhile;
+      for($i=0;$i<$numero_div;$i++) {
+        echo"<div class='div'></div>";
+    }
     }?>
