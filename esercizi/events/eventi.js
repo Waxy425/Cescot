@@ -7,7 +7,7 @@ var div = document.getElementsByClassName("div");
 bottone.addEventListener('click', colora);
 bottona.addEventListener('click', coloraGiallo);
 
-function colora(){
+function coloraRosso(){
     div[0].style.backgroundColor = 'red';
     div[1].style.backgroundColor = 'red';
     div[2].style.backgroundColor = 'red';
@@ -55,6 +55,30 @@ function coloraGiallo(){
     div[18].style.backgroundColor = 'yellow';
     div[19].style.backgroundColor = 'yellow';
     div[20].style.backgroundColor = 'yellow';
+}
+
+function coloraBlu(){
+    div[0].style.backgroundColor = 'blu';
+    div[1].style.backgroundColor = 'blu';
+    div[2].style.backgroundColor = 'blu';
+    div[3].style.backgroundColor = 'blu';
+    div[4].style.backgroundColor = 'blu';
+    div[5].style.backgroundColor = 'blu';
+    div[6].style.backgroundColor = 'blu';
+    div[7].style.backgroundColor = 'blu';
+    div[8].style.backgroundColor = 'blu';
+    div[9].style.backgroundColor = 'blu';
+    div[10].style.backgroundColor = 'blu';
+    div[11].style.backgroundColor = 'blu';
+    div[12].style.backgroundColor = 'blu';
+    div[13].style.backgroundColor = 'blu';
+    div[14].style.backgroundColor = 'blu';
+    div[15].style.backgroundColor = 'blu';
+    div[16].style.backgroundColor = 'blu';
+    div[17].style.backgroundColor = 'blu';
+    div[18].style.backgroundColor = 'blu';
+    div[19].style.backgroundColor = 'blu';
+    div[20].style.backgroundColor = 'blu';
 }
 
 function color_red(){
