@@ -30,3 +30,15 @@ function color_blue(){
         i++;
     }
 }
+
+function alterna(){
+    let i=0;
+    while (i<19){
+        div[i].style.backgroundColor = 'red';
+        i++;
+        div[i].style.backgroundColor = 'yellow';
+        i++;
+        div[i].style.backgroundColor = 'blue';
+        i++;
+    }
+}
