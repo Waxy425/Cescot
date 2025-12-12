@@ -14,17 +14,12 @@
     <button onclick="alterna()" id="button_alterna">alterna</button>
 
     <?php
-        div_generatore(20);
+    include ("..\lib\libreria.php");
+    
+        div_generatore(20, "div");
     
         ?>
 
     <script src="eventi.js"></script>
 </body>
 </html>
-
-<?php
-    function div_generatore($numero_div){
-      for($i=0;$i<$numero_div;$i++) {
-        echo"<div class='div'></div>";
-    }
-    }?>
