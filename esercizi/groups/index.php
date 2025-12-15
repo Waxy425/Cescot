@@ -25,7 +25,7 @@
     <h2>secondo gruppo</h2>
 
     <?php
-        div_casuali(5, 10, "colora2", "", "colora");
+        div_casuali(10, 15, "colora2", "", "colora");
     ?>
 
 
