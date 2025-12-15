@@ -63,3 +63,16 @@ function div_generatore_random($min, $max){
         echo"<div class='$class' id='$id'>$contenuto</div>";
     }
     };
+
+/**
+ * la funzione genera div casuali
+ * @param int min/max numero di div da generare casualmente
+ * @return void
+ */
+    function div_casuali($min, $max, $class="", $id="", $contenuto=""){
+      $i = 0;
+      $numero_div = rand($min,$max);
+        for ($i=0;$i<=$numero_div;$i++) {
+        echo"<div class='$class' id='$id'>$contenuto</div>";
+}
+    };
