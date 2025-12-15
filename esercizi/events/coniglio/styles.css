@@ -1,0 +1,178 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f8ff; /* Azzurro chiaro per lo sfondo */
+    margin: 0;
+    font-family: Arial, sans-serif;
+    overflow: hidden; /* Nasconde qualsiasi cosa fuoriesca dal body */
+}
+
+.rabbit-container {
+    position: relative;
+    width: 200px; /* Larghezza complessiva del coniglio */
+    height: 250px; /* Altezza complessiva del coniglio */
+    transform: scale(1); /* Puoi modificare questo valore per ingrandire/rimpicciolire */
+}
+
+/* Colori base per il coniglio */
+:root {
+    --rabbit-fur-color: #e0f2f7; /* Azzurro-grigio chiaro */
+    --inner-ear-color: #ffb6c1; /* Rosa chiaro */
+    --eye-color: #333;
+    --nose-color: #f77fbe; /* Rosa brillante */
+    --shadow-color: rgba(0,0,0,0.1);
+}
+
+/* Corpo */
+.body {
+    width: 150px;
+    height: 120px;
+    background-color: var(--rabbit-fur-color);
+    border-radius: 50%;
+    position: absolute;
+    bottom: 0;
+    left: 25px;
+    z-index: 0;
+    box-shadow: inset 0 -10px 10px var(--shadow-color);
+}
+
+/* Testa */
+.head {
+    width: 120px;
+    height: 120px;
+    background-color: var(--rabbit-fur-color);
+    border-radius: 50%;
+    position: absolute;
+    bottom: 90px;
+    left: 40px;
+    z-index: 1;
+    box-shadow: inset 0 -5px 8px var(--shadow-color);
+}
+
+/* Orecchie */
+.ear {
+    width: 40px;
+    height: 100px;
+    background-color: var(--rabbit-fur-color);
+    border-radius: 50% 50% 0 0;
+    position: absolute;
+    top: 0;
+    z-index: 0; /* Dietro la testa */
+    transform-origin: bottom center; /* Per rotazione da sotto */
+    box-shadow: inset 0 -5px 5px var(--shadow-color);
+}
+
+.left-ear {
+    left: 40px;
+    transform: rotate(-25deg);
+}
+
+.right-ear {
+    right: 40px;
+    transform: rotate(25deg);
+}
+
+.inner-ear {
+    width: 25px;
+    height: 70px;
+    background-color: var(--inner-ear-color);
+    border-radius: 50% 50% 0 0;
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Occhi */
+.eye {
+    width: 10px;
+    height: 10px;
+    background-color: var(--eye-color);
+    border-radius: 50%;
+    position: absolute;
+    top: 40px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+
+.left-eye {
+    left: 35px;
+}
+
+.right-eye {
+    right: 35px;
+}
+
+/* Naso */
+.nose {
+    width: 15px;
+    height: 8px;
+    background-color: var(--nose-color);
+    position: absolute;
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 0 0 50% 50%;
+}
+
+/* Bocca (opzionale, una piccola linea) */
+.mouth {
+    width: 2px;
+    height: 10px;
+    background-color: var(--eye-color);
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 0 0 50% 50%;
+}
+
+/* Zampe */
+.paw {
+    width: 30px;
+    height: 20px;
+    background-color: var(--rabbit-fur-color);
+    border-radius: 50%;
+    position: absolute;
+    bottom: 0;
+    z-index: 1; /* Davanti al corpo */
+    box-shadow: inset 0 -3px 5px var(--shadow-color);
+}
+
+.front-left-paw {
+    left: 50px;
+    bottom: 10px;
+    transform: rotate(10deg);
+}
+
+.front-right-paw {
+    right: 50px;
+    bottom: 10px;
+    transform: rotate(-10deg);
+}
+
+.back-paw { /* Zampa posteriore che si intravede */
+    width: 40px;
+    height: 30px;
+    background-color: var(--rabbit-fur-color);
+    border-radius: 50%;
+    left: 10px;
+    bottom: 5px;
+    z-index: -1; /* Dietro il corpo */
+    box-shadow: inset 0 -3px 5px var(--shadow-color);
+}
+
+/* Coda */
+.tail {
+    width: 35px;
+    height: 35px;
+    background-color: #fff; /* Bianco per la coda */
+    border-radius: 50%;
+    position: absolute;
+    bottom: 40px;
+    right: 15px;
+    z-index: -1; /* Dietro il corpo */
+    box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+}

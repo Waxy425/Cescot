@@ -54,5 +54,9 @@ function alterna(){
         i++;
         div[i].style.backgroundColor = 'blue';
         i++;
+        div[i].style.backgroundColor = 'green';
+        i++;
+        div[i].style.backgroundColor = 'orange';
+        i++;
     }
 }

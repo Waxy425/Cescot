@@ -24,3 +24,10 @@ button.green {
 button.orange {
     color: orange;
 }
+
+button#button_alterna {
+    color: black;
+    background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+    
+}
+
