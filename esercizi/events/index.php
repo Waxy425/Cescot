@@ -11,6 +11,8 @@
     <button class="red" onclick="color_red()" id="colora">rosso</button>
     <button class="yellow" onclick="color_yellow()" id="coloraGiallo">giallo</button>
     <button class="blue" onclick="color_blue()" id="coloraBlu">blu</button>
+    <button class="green" onclick="color_green()" id="coloraVerde">Verde</button>
+    <button class="orange" onclick="color_orange()" id="coloraArancione">Arancione</button>
     <button onclick="alterna()" id="button_alterna">alterna</button>
 
     <?php

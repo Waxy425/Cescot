@@ -1,6 +1,10 @@
 <?php
 // File di libreria con generatori di <div>
-
+/**
+ * la funzione genera div dispari e pari alternati tra loro
+ * @param int numero di div da generare
+ * @return void
+ */
 function div_generatore_dispari_pari($pari_dispari_div){
       // $pari_dispari_div: numero di coppie di div da generare
       $p="pari"; // nome classe per i div pari (non usato direttamente)
@@ -15,6 +19,11 @@ function div_generatore_dispari_pari($pari_dispari_div){
         endwhile;
     };
 
+    /**
+ * la funzione genera div casulai
+ * @param int numero di div random da generare (mix, max)
+ * @return void
+ */
 function div_generatore_random($min, $max){
     // Genera un numero casuale di div compreso tra $min e $max.
     // Se il numero è dispari stampa una sequenza alternata pari/dispari adeguata.
@@ -43,7 +52,11 @@ function div_generatore_random($min, $max){
     
 }
 
-
+/**
+ * la funzione genera div 
+ * @param int numero di div da generare
+ * @return void
+ */
     function div_generatore($numero_div, $class="", $id="", $contenuto=""){
       // Genera $numero_div di <div> con attributi opzionali: class, id e contenuto
       for($i=0;$i<$numero_div;$i++) {
