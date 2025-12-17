@@ -24,8 +24,9 @@
     </div>
     <h2>primo gruppo</h2>
 
+    
     <?php
-    include ("..\lib\libreria.php");
+    require("../lib/libreria.php");
         div_casuali(5, 10, "colora1", "");
     ?>
 

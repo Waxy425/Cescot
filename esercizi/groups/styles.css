@@ -1,5 +1,4 @@
 .colora1 {
-    background-color: green;
     height: 150px;
     width: 150px;
     display: inline-flex;
@@ -7,7 +6,6 @@
     margin-top:10px;
 }
 .colora2 {
-    background-color: green;
     height: 100px;
     width: 100px;
     display: inline-flex;
@@ -16,7 +14,6 @@
 }
 
 .colora3 {
-    background-color: green;
     height: 50px;
     width: 50px;
     display: inline-flex;
