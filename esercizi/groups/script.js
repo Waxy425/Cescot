@@ -2,7 +2,7 @@ function primo_rosso() {
     let i=0;
     let colora=document.getElementsByClassName("colora1");
     while (i<colora.length){
-        colora1[i].style.backgroundColor = 'red';
+        colora[i].style.backgroundColor = 'red';
         i++;
 }
 };
