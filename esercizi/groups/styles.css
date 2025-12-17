@@ -4,6 +4,7 @@
     width: 150px;
     display: inline-flex;
     margin-left: 10px;
+    margin-top:10px;
 }
 .colora2 {
     background-color: green;
@@ -11,6 +12,7 @@
     width: 100px;
     display: inline-flex;
     margin-left: 10px;
+    margin-top:10px;
 }
 
 .colora3 {
@@ -19,4 +21,5 @@
     width: 50px;
     display: inline-flex;
     margin-left: 10px;
+    margin-top:10px;
 }
