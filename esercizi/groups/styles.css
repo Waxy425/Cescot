@@ -12,3 +12,11 @@
     display: inline-flex;
     margin-left: 10px;
 }
+
+.colora3 {
+    background-color: green;
+    height: 50px;
+    width: 50px;
+    display: inline-flex;
+    margin-left: 10px;
+}
