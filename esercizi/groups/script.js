@@ -124,3 +124,21 @@ function tutti_giallo() {
         i++;
 }
 };
+function reset() {
+    let i=0;
+    let colora1=document.getElementsByClassName("colora1");
+    let colora2=document.getElementsByClassName("colora2");
+    let colora3=document.getElementsByClassName("colora3");
+    while (i<colora1.length){
+        colora1[i].style.backgroundColor = 'green';
+        i++;}
+    i=0;
+    while (i<colora2.length){
+        colora2[i].style.backgroundColor = 'green';
+        i++;}
+    i=0;
+    while (i<colora3.length){
+        colora3[i].style.backgroundColor = 'green';
+        i++;
+}
+};

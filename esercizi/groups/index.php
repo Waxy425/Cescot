@@ -20,6 +20,7 @@
         <button id="secondogiallo" onclick="secondo_giallo()">secondo giallo</button>
         <button id="terzogiallo" onclick="terzo_giallo()">terzo giallo</button>
         <button id="tuttigiallo" onclick="tutti_giallo()">tutti giallo</button>
+        <button onclick="reset()">reset</button>
     </div>
     <h2>primo gruppo</h2>
 
