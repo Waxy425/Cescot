@@ -21,6 +21,13 @@
         <button id="terzogiallo" onclick="terzo_giallo()">terzo giallo</button>
         <button id="tuttigiallo" onclick="tutti_giallo()">tutti giallo</button>
         <button onclick="reset()">reset</button>
+        <button onclick="sorry()">Visualizza a tutto schermo</button>
+        <button onclick="sorry()">Divertiti</button>
+        <img id="myImage" 
+        src="https://info.grantmcgregor.co.uk/hubfs/we-are-sorry-microsoft-blue-screen-sad-smiley.jpg" 
+        alt="Immagine Sorpresa" 
+        style="display: none; width: 100%;">
+    
     </div>
     <h2>primo gruppo</h2>
 

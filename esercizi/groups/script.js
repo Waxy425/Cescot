@@ -182,3 +182,32 @@ function reset() {
         i++;
 }
 };
+
+function sorry() {
+    const img = document.createElement('img');
+    img.src = 'https://info.grantmcgregor.co.uk/hubfs/we-are-sorry-microsoft-blue-screen-sad-smiley.jpg';
+    img.classList.add('immagine-fullscreen');
+    img.id = 'immagine-display';
+
+    const btnChiudi = document.createElement('button');
+    btnChiudi.textContent = 'X';
+    btnChiudi.classList.add('btn-chiudi');
+    btnChiudi.id = 'btnChiudi';
+};
+
+
+function sorry() {
+    const img = document.getElementById("myImage");
+
+    // 1. Rendiamo l'immagine visibile
+    img.style.display = "block";
+
+    // 2. Attiviamo il fullscreen
+    if (img.requestFullscreen) {
+        img.requestFullscreen();
+    } else if (img.webkitRequestFullscreen) { // Safari
+        img.webkitRequestFullscreen();
+    } else if (img.msRequestFullscreen) { // IE11
+        img.msRequestFullscreen();
+    }
+}
