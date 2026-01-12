@@ -1,4 +1,17 @@
 <?php
+
+
+
+function connect_db($host, $user, $pass, $dbname) {
+    $conn = mysqli_connect ($host, $user, $pass, $dbname);
+    if (!$conn) {
+        die("Connessione fallita: " . mysqli_connect_error());
+    }
+}
+
+
+
+
 // File di libreria con generatori di <div>
 /**
  * la funzione genera div dispari e pari alternati tra loro
