@@ -1,11 +1,14 @@
 <?php
+
+
     include '../../lib/libreria.php';
-        $host = "Localhost";
-        $user = "root";
-        $pass = "";
-        $dbname = "prenotazioni";
+        $host = getenv("DB_HOST");
+        $user = getenv("DB_USER");
+        $pass = getenv("DB_PASS");
+        $dbname = getenv("DB_NAME");
 
         $connessione = mysqli_connect($host, $user, $pass, $dbname);
+
 
         $query1 = "SELECT citta FROM citta";
         $risultato1 = mysqli_query($connessione, $query1);
@@ -13,8 +16,49 @@
         $risultato2 = mysqli_query($connessione, $query2);
         $query3 = "SELECT ID_prenotazione, caparra, importo, arrivo FROM prenotazioni";
         $risultato3 = mysqli_query($connessione, $query3);
-        
 ?>
+
+
+
+
+<?php 
+// 1. LOGICA DI VALIDAZIONE (Solo se il form è inviato)
+$messaggio_errore = "";
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['invia'])) {
+    $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+    if (!$email) {
+        $messaggio_errore = "Email non valida, riprova.";
+    } else {
+        // Qui potresti fare qualcosa con l'email valida
+        $messaggio_errore = "Email corretta!"; 
+    }
+}
+?>
+
+
+
+
+
+
+
+<form method="post" action="validazione.php">
+    <label for="email">Inserisci Email:</label>
+    <input type="email" name="email">
+    <input type="submit" name="invia">
+</form>
+
+
+<?php
+    /*$email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+        if(!$email){
+            die("Email non valida");
+        }*/
+?>
+
+
+
+
+
 
 
 <!DOCTYPE html>
@@ -57,6 +101,10 @@
         }
     ?>
 
-    <h2></h2>
+
+
+
+
+    <script src="script.js"></script>
 </body>
 </html>
