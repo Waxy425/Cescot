@@ -15,14 +15,17 @@
 
     $connessione = mysqli_connect($host, $user, $pass, $dbname);
 
-    $query = "SELECT DISTINCT regioni.regione, COUNT(*) AS numero_prenotazioni,
-    SUM(prenotazioni.importo) AS totale_importo,
-    SUM(prenotazioni.importo - prenotazioni.caparra), AS totale_saldo FROM regioni
+    $query = "SELECT DISTINCT regioni.regione, ID_prenotazione, COUNT(*) AS numero_prenotazioni,
+    ROUND(SUM(prenotazioni.importo), 2) AS totale_importo,
+    ROUND(SUM(prenotazioni.importo - prenotazioni.caparra), 2) AS totale_saldo FROM regioni
+    INNER JOIN citta ON regioni.ID_regione = citta.regione
+    INNER JOIN clienti ON citta.ID_citta = clienti.citta
+    INNER JOIN prenotazioni ON clienti.ID_cliente = prenotazioni.cliente
+    GROUP BY regioni.regione";
 
+    //prenotazioni.ID_prenotazione, importo, caparra FROM regioni INNER JOIN citta ON regioni.ID_regione = citta.regione INNER JOIN clienti ON citta.ID_citta = clienti.citta INNER JOIN prenotazioni ON clienti.ID_cliente = prenotazioni.cliente;
 
-    prenotazioni.ID_prenotazione, importo, caparra FROM regioni INNER JOIN citta ON regioni.ID_regione = citta.regione INNER JOIN clienti ON citta.ID_citta = clienti.citta INNER JOIN prenotazioni ON clienti.ID_cliente = prenotazioni.cliente";
     $risultato = mysqli_query($connessione, $query);
-    /*non seguire questo esercizio, non va bene*/
 ?>
 
 <body>
@@ -32,9 +35,8 @@
         while ($tutto = mysqli_fetch_assoc($risultato)) {
             $numero_prenotazione = $tutto['ID_prenotazione'];
             $regione             = $tutto['regione'];
-            $importo             = $tutto['importo'];
-            $caparra             = $tutto['caparra'];
-            $saldo = $importo - $caparra;
+            $importo             = $tutto['totale_importo'];
+            $saldo               = $tutto['totale_saldo'];
             
             
             div_generatore(1, "", "", 
